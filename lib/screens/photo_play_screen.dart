@@ -109,8 +109,15 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Scan de volgende QR-code"),
-        content: Text("Scan de volgende QR-code: $nextQR"),
+        backgroundColor: const Color(0xfff1f0ea),
+        title: Text(
+          "Scan de volgende QR-code: $nextQR",
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Color(0xff5A7364),
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () {
@@ -122,13 +129,23 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
                 ),
               );
             },
-            child: const Text("QR Scanner openen"),
+            child: const Text(
+              "QR Scanner openen",
+              style: TextStyle(
+                color: Color(0xff82A790),
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text("Plattegrond openen"),
+            child: const Text(
+              "Plattegrond openen",
+              style: TextStyle(
+                color: Color(0xff82A790),
+              ),
+            ),
           ),
         ],
       ),
@@ -193,7 +210,6 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
                     setState(() {
                       isAudioPlaying = true;
                     });
-                    // Roep de functie aan om de tekst af te spelen
                     await _speakText(photoText);
                     setState(() {
                       isAudioPlaying = false;

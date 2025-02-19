@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: const Color(0xfff1f0ea),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.push(
                 context,
