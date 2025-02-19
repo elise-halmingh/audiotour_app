@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:audiotour_apps/screens/map_screen.dart';
 import 'package:audiotour_apps/screens/qr_scanner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
