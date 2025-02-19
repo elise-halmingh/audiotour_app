@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:audiotour_apps/screens/map_screen.dart';
 import 'package:audiotour_apps/screens/qr_scanner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,8 +55,6 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
         userTheme = '';
       });
     }
-
-    print('Leeftijdsgroep: $userAgeGroup, Thema: $userTheme');
   }
 
   // Verkrijg de beschrijving op basis van de leeftijd en het thema
@@ -67,11 +66,8 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
 
     var themeDescriptions = photo['descriptions'][userTheme];
 
-    print('Huidige thema: $userTheme, Leeftijdsgroep: $userAgeGroup');
-
     if (themeDescriptions != null) {
       String description = themeDescriptions[userAgeGroup] ?? 'Geen beschrijving beschikbaar voor deze leeftijdsgroep.';
-      print('Beschrijving: $description');
       return description;
     }
 
@@ -95,7 +91,6 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
     });
   }
 
-  // Functie om naar de volgende QR-code te gaan
   void _goToNextQRCode() {
     int nextQR = widget.currentQR + 1;
     if (nextQR > 5) {
@@ -119,33 +114,68 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => QRScannerScreen(nextQRCode: nextQR),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/map');
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: const Color(0xff82A790),
+                        width: 2,
+                      ),
+                    ),
+                    child: const Text(
+                      "Plattegrond",
+                      style: TextStyle(
+                        color: Color(0xff82A790),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ),
-              );
-            },
-            child: const Text(
-              "QR Scanner openen",
-              style: TextStyle(
-                color: Color(0xff82A790),
               ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Plattegrond openen",
-              style: TextStyle(
-                color: Color(0xff82A790),
+              const SizedBox(width: 10),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QRScannerScreen(nextQRCode: nextQR),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Color(0xff82A790),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Text(
+                      "QR Scanner",
+                      style: TextStyle(
+                        color: Color(0xfff1f0ea),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
@@ -222,7 +252,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
                   ),
                   child: Text(
                     isAudioPlaying ? 'Afspelen...' : 'Tekst afspelen',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xfff1f0ea)),
                   ),
                 ),
               ),
