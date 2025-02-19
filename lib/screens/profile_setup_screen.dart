@@ -92,6 +92,14 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                     color: Color(0xff82A790),
                   ),
                 ),
+                const Text(
+                  'Selecteer je leeftijd en thema',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xff82A790),
+                  ),
+                ),
                 const SizedBox(height: 35),
 
                 // Leeftijd invoeren
@@ -102,6 +110,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                     _setAgeGroup(value);
                   },
                   keyboardType: TextInputType.number,
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 30),
 
@@ -137,6 +148,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
+                            backgroundColor: Color(0xfff1f0ea),
                             title: const Text('Missing Information'),
                             content: const Text('Vul de benodigde informatie in alstublieft.'),
                             actions: [
@@ -175,7 +187,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     required TextEditingController controller,
     required String labelText,
     required Function(String) onChanged,
-    required TextInputType keyboardType,
+    required TextInputType keyboardType, required TextStyle labelStyle,
   }) {
     return SizedBox(
       width: 280,
