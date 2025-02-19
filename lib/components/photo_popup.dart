@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PhotoPopup extends StatelessWidget {
   final Map<String, dynamic> photo;
 
-  PhotoPopup({required this.photo});
+  const PhotoPopup({required this.photo});
 
   @override
   Widget build(BuildContext context) {
