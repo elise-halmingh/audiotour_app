@@ -111,7 +111,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   },
                   keyboardType: TextInputType.number,
                   labelStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 30),

@@ -45,13 +45,26 @@ class MapScreen extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.all(14.0),
             child: Center(
-              child: Text(
-                'Plattegrond',
-                style: TextStyle(
-                  color: Color(0xff5A7364),
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Column(
+                children: [
+                  Text(
+                    'Plattegrond',
+                    style: TextStyle(
+                      color: Color(0xff5A7364),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Klik op de nummers om de foto te zien',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xff82A790),
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
