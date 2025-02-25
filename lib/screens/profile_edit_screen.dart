@@ -31,11 +31,18 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     }
   }
 
+  // Functie om leeftijd om te zetten naar leeftijdsgroep
   void _setAgeGroup(String age) {
     int? ageInt = int.tryParse(age);
     if (ageInt != null) {
-      if (ageInt < 0) {
+      if (ageInt < 3) {
         ageGroup = null;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Leeftijd mag niet lager zijn dan 3.'),
+            backgroundColor: Colors.red,
+          ),
+        );
       } else if (ageInt > 100) {
         ageGroup = null;
         ScaffoldMessenger.of(context).showSnackBar(
