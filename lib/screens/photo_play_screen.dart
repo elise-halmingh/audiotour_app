@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:audiotour_apps/screens/qr_scanner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:audioplayers/audioplayers.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PhotoPlayScreen extends StatefulWidget {
   final int currentQR;
@@ -20,14 +23,24 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
   bool isAudioPlaying = false;
   String userAgeGroup = '';
   String userTheme = '';
-  late FlutterTts flutterTts;
+  final String apiKey = "sk_579d78d0fd1750484e27187ae5e679efe2eccba1748abae7";
+  final String voiceId = "21m00Tcm4TlvDq8ikWAM";
+
+  // Audioplayers speler
+  late AudioPlayer _audioPlayer;
 
   @override
   void initState() {
     super.initState();
-    flutterTts = FlutterTts();
+    _audioPlayer = AudioPlayer();
     loadPhotos();
     loadUserPreferences();
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   // Functie om de leeftijd om te zetten naar leeftijdsgroep
@@ -58,7 +71,6 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
 
   // Verkrijg de beschrijving op basis van de leeftijd en het thema
   String getDescriptionForAgeAndTheme(Map<String, dynamic> photo) {
-    // Check of de thema beschrijving beschikbaar is voor de gekozen leeftijdsgroep en thema
     if (userAgeGroup.isEmpty || userTheme.isEmpty) {
       return 'Kies een thema en leeftijdsgroep om een beschrijving te tonen.';
     }
@@ -88,6 +100,43 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
         orElse: () => {},
       );
     });
+  }
+
+  Future<void> _speakText(String text) async {
+    if (text.isEmpty) {
+      print("Geen tekst om af te spelen.");
+      return;
+    }
+    print("Bezig met afspelen van tekst: $text");
+
+    final response = await http.post(
+      Uri.parse("https://api.elevenlabs.io/v1/text-to-speech/$voiceId"),
+      headers: {
+        "Content-Type": "application/json",
+        "xi-api-key": apiKey,
+      },
+      body: jsonEncode({"text": text, "voice_settings": {"stability": 0.5, "similarity_boost": 0.8}}),
+    );
+
+    if (response.statusCode == 200) {
+      print("Audio gegenereerd.");
+
+      try {
+        // Verkrijg het bestandspad voor tijdelijke opslag
+        final directory = await getTemporaryDirectory();
+        final file = File('${directory.path}/audio.mp3');
+
+        // Schrijf de binaire inhoud naar een bestand
+        await file.writeAsBytes(response.bodyBytes);
+
+        // Speel het bestand af met audioplayers
+        await _audioPlayer.play(DeviceFileSource(file.path));
+      } catch (e) {
+        print("Fout bij het afspelen van audio: $e");
+      }
+    } else {
+      print("Fout bij het genereren van audio: ${response.body}");
+    }
   }
 
   void _goToNextQRCode() {
@@ -179,16 +228,6 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
         ],
       ),
     );
-  }
-
-  // Functie om de tekst af te spelen met TTS
-  Future<void> _speakText(String text) async {
-    if (text.isNotEmpty) {
-      print("Bezig met afspelen van tekst: $text");
-      await flutterTts.speak(text);
-    } else {
-      print("Geen tekst om af te spelen.");
-    }
   }
 
   @override
