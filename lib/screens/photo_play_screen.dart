@@ -25,7 +25,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
   String userAgeGroup = '';
   String userTheme = '';
   final String apiKey = dotenv.env['ELEVENLABS_API_KEY'] ?? '';
-  final String voiceId = "21m00Tcm4TlvDq8ikWAM";
+  final String voiceId = "tpT4HgCCPT6IJy7pIRjp";
 
   // Audioplayers speler
   late AudioPlayer _audioPlayer;
@@ -116,7 +116,11 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
         "Content-Type": "application/json",
         "xi-api-key": apiKey,
       },
-      body: jsonEncode({"text": text, "voice_settings": {"stability": 0.5, "similarity_boost": 0.8}}),
+      body: jsonEncode({
+        "text": text,
+        "voice_id": "nl-voice-id",
+        "model_id": "eleven_multilingual_v2",
+        "voice_settings": {"stability": 0.5, "similarity_boost": 0.8}}),
     );
 
     if (response.statusCode == 200) {
