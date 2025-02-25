@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class PhotoPlayScreen extends StatefulWidget {
   final int currentQR;
@@ -23,7 +24,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
   bool isAudioPlaying = false;
   String userAgeGroup = '';
   String userTheme = '';
-  final String apiKey = "sk_579d78d0fd1750484e27187ae5e679efe2eccba1748abae7";
+  final String apiKey = dotenv.env['ELEVENLABS_API_KEY'] ?? '';
   final String voiceId = "21m00Tcm4TlvDq8ikWAM";
 
   // Audioplayers speler
