@@ -1,4 +1,4 @@
-package com.example.audiotour_app
+package com.example.audiotour_apps
 
 import io.flutter.embedding.android.FlutterActivity
 
