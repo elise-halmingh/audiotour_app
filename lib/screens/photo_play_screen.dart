@@ -280,12 +280,29 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
-                    setState(() {
-                      isAudioPlaying = true;
-                    });
-                    await _speakText(photoText);
-                    setState(() {
-                      isAudioPlaying = false;
+                    if (_audioPlayer.state == PlayerState.playing) {
+                      await _audioPlayer.pause();
+                      setState(() {
+                        isAudioPlaying = false;
+                      });
+                    } else if (_audioPlayer.state == PlayerState.paused) {
+                      await _audioPlayer.resume();
+                      setState(() {
+                        isAudioPlaying = true;
+                      });
+                    } else {
+                      setState(() {
+                        isAudioPlaying = true;
+                      });
+                      await _speakText(photoText);
+                      setState(() {
+                        isAudioPlaying = false;
+                      });
+                    }
+                    _audioPlayer.onPlayerComplete.listen((event) {
+                      setState(() {
+                        isAudioPlaying = false;
+                      });
                     });
                   },
                   style: ElevatedButton.styleFrom(
@@ -294,8 +311,14 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
                   child: Text(
-                    isAudioPlaying ? 'Afspelen...' : 'Tekst afspelen',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xfff1f0ea)),
+                    _audioPlayer.state == PlayerState.playing
+                        ? 'Pauzeren'
+                        : 'Afspelen',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xfff1f0ea),
+                    ),
                   ),
                 ),
               ),
