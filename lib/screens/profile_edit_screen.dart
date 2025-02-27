@@ -35,11 +35,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   void _setAgeGroup(String age) {
     int? ageInt = int.tryParse(age);
     if (ageInt != null) {
-      if (ageInt < 3) {
+      if (ageInt < 1) {
         ageGroup = null;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Leeftijd mag niet lager zijn dan 3.'),
+            content: Text('Leeftijd mag niet lager zijn dan 1.'),
             backgroundColor: Colors.red,
           ),
         );
