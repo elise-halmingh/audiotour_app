@@ -12,7 +12,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class PhotoPlayScreen extends StatefulWidget {
   final int currentQR;
 
-  const PhotoPlayScreen({Key? key, required this.currentQR}) : super(key: key);
+  const PhotoPlayScreen({super.key, required this.currentQR});
 
   @override
   _PhotoPlayScreenState createState() => _PhotoPlayScreenState();
@@ -25,7 +25,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
   String userAgeGroup = '';
   String userTheme = '';
   final String apiKey = dotenv.env['ELEVENLABS_API_KEY'] ?? '';
-  final String voiceId = "tpT4HgCCPT6IJy7pIRjp";
+  final String voiceId = "21m00Tcm4TlvDq8ikWAM";
 
   // Audioplayers speler
   late AudioPlayer _audioPlayer;
@@ -51,7 +51,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
     return '51+';
   }
 
-  // Laad de voorkeuren van de gebruiker
+  // Laad de gekozen leeftijd en thema van de gebruiker
   Future<void> loadUserPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userDataJson = prefs.getString('user_data');
@@ -86,7 +86,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
     return 'Geen beschrijving beschikbaar voor dit thema.';
   }
 
-  // Laad de foto's van het bestand
+  // Laad de foto's van JSON bestand
   Future<void> loadPhotos() async {
     String jsonString = await rootBundle.loadString('assets/photos.json');
     Map<String, dynamic> jsonData = json.decode(jsonString);
@@ -103,7 +103,9 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
     });
   }
 
+  // Tekst afspelen
   Future<void> _speakText(String text) async {
+    // Als er geen beschrijving is gevonden, toon foutmelding
     if (text.isEmpty) {
       print("Geen tekst om af te spelen.");
       return;
@@ -116,6 +118,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
         "Content-Type": "application/json",
         "xi-api-key": apiKey,
       },
+      // ElevenLabs instellingen
       body: jsonEncode({
         "text": text,
         "voice_id": "nl-voice-id",
@@ -127,11 +130,11 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
       print("Audio gegenereerd.");
 
       try {
-        // Verkrijg het bestandspad voor tijdelijke opslag
+        // Verkrijg de path voor tijdelijke opslag
         final directory = await getTemporaryDirectory();
         final file = File('${directory.path}/audio.mp3');
 
-        // Schrijf de binaire inhoud naar een bestand
+        // Schrijf de inhoud naar een bestand
         await file.writeAsBytes(response.bodyBytes);
 
         // Speel het bestand af met audioplayers
@@ -144,6 +147,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
     }
   }
 
+  // Naar volgende QR code gaan.
   void _goToNextQRCode() {
     int nextQR = widget.currentQR + 1;
     if (nextQR > 5) {

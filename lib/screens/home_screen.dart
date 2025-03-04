@@ -3,6 +3,7 @@ import 'package:audiotour_apps/screens//profile_edit_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/home';
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: const Color(0xfff1f0ea),
         body: Center(
           child: ElevatedButton(
+            // Als er niets is ingevuld toon foutmelding
             onPressed: () {
               showDialog(
                 context: context,
@@ -50,6 +52,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      // Profile Edit openen
       backgroundColor: const Color(0xfff1f0ea),
       appBar: AppBar(
         backgroundColor: const Color(0xfff1f0ea),
@@ -95,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
-
+              //QR Scanner Button
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(
@@ -116,6 +119,7 @@ class HomeScreen extends StatelessWidget {
                   elevation: 6,
                 ),
               ),
+              // Map bekijken Button
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {

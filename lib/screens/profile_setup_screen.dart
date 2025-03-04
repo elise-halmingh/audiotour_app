@@ -23,7 +23,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userDataJson = prefs.getString('user_data');
     if (userDataJson != null) {
-      // Als er data is, converteren we de JSON-string naar een Map
+      // Als er data is, veranderen we de JSON-string naar een Map
       Map<String, dynamic> userData = json.decode(userDataJson);
       setState(() {
         ageController.text = userData['age'] ?? '';
@@ -151,6 +151,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       );
                     } else {
                       showDialog(
+                        // Alert pop up
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
@@ -170,6 +171,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       );
                     }
                   },
+                  // Doorgaan button
                   child: const Text('Doorgaan'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff82A790),
@@ -189,6 +191,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     );
   }
 
+  // Text Styling
   Widget _buildTextField({
     required TextEditingController controller,
     required String labelText,
@@ -226,7 +229,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     );
   }
 
-  // Dropdown menu voor thema
+  // Dropdown Styling
   Widget _buildDropdownMenu({
     required String title,
     required String placeholder,

@@ -17,8 +17,9 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
   // Pop-up
   void _showErrorDialog(String message) {
-    if (_isDialogOpen) return; // Voorkomt dubbele meldingen
+    if (_isDialogOpen) return;
 
+    // Laat foutmelding zien als er iets fout gaat (meerdere oorzaken)
     _isDialogOpen = true;
     showDialog(
       context: context,
@@ -48,25 +49,27 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
         backgroundColor: const Color(0xfff1f0ea),
         title: const Text('QR Scanner'),
       ),
+      //Scanner
       body: Center(
         child: _isScanning
             ? MobileScanner(
           onDetect: (barcodeCapture) {
-            if (_isDialogOpen) return; // Stop scanner als er een foutmelding open is
+            // Stop scanner als er een foutmelding open is
+            if (_isDialogOpen) return;
 
             final String? rawCode = barcodeCapture.barcodes.isNotEmpty
                 ? barcodeCapture.barcodes.first.rawValue
                 : null;
 
+            // Als er geen inhoud is bij de QR-code is, toon foutmelding
             if (rawCode == null || rawCode.isEmpty) {
               _showErrorDialog('Mislukt om QR-code te scannen. Probeer het opnieuw.');
               return;
             }
 
-            print('QR Code detected: $rawCode');
-
             int? scannedCode = int.tryParse(rawCode);
 
+            // Onbekende QR-code, toon foutmelding
             if (scannedCode == null) {
               _showErrorDialog('Onbekende QR-code. Deze code wordt niet herkend.');
               return;
@@ -77,6 +80,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 _isScanning = false;
               });
 
+              // Qr-code in verkeerde volgorde gescant, toon foutmelding
               Navigator.push(
                 context,
                 MaterialPageRoute(

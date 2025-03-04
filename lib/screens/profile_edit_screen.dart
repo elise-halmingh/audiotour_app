@@ -158,6 +158,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       );
                     }
                   },
+                  // Opslaan button
                   child: const Text('Opslaan'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff82A790),
@@ -177,6 +178,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     );
   }
 
+  // Text Field Styling
   Widget _buildTextField({
     required TextEditingController controller,
     required String labelText,
