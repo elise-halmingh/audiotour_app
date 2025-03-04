@@ -37,29 +37,29 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   void _setAgeGroup(String age) {
     int? ageInt = int.tryParse(age);
     if (ageInt != null) {
-      if (ageInt < 1) {
+      if (ageInt < 3) {
         ageGroup = null;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Leeftijd mag niet lager zijn dan 1.'),
+            content: Text('Leeftijd mag niet lager zijn dan 3.'),
             backgroundColor: Colors.red,
           ),
         );
-      } else if (ageInt > 100) {
+      } else if (ageInt > 127) {
         ageGroup = null;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Leeftijd mag niet hoger zijn dan 100.'),
+            content: Text('Leeftijd mag niet hoger zijn dan 127.'),
             backgroundColor: Colors.red,
           ),
         );
         ageController.text = '';
-      } else if (ageInt <= 18) {
-        ageGroup = '0-18';
-      } else if (ageInt <= 50) {
-        ageGroup = '19-50';
+      } else if (ageInt <= 13) {
+        ageGroup = '0-13';
+      } else if (ageInt <= 30) {
+        ageGroup = '14-30';
       } else {
-        ageGroup = '51+';
+        ageGroup = '31+';
       }
     } else {
       ageGroup = null;
