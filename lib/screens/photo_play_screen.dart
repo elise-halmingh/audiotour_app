@@ -46,9 +46,9 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
 
   // Functie om de leeftijd om te zetten naar leeftijdsgroep
   String getAgeGroup(int age) {
-    if (age <= 18) return '0-18';
-    if (age <= 50) return '19-50';
-    return '51+';
+    if (age <= 13) return '3-13';
+    if (age <= 30) return '14-30';
+    return '31+';
   }
 
   // Laad de gekozen leeftijd en thema van de gebruiker
