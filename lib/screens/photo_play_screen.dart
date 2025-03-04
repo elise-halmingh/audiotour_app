@@ -107,11 +107,9 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
   Future<void> _speakText(String text) async {
     // Als er geen beschrijving is gevonden, toon foutmelding
     if (text.isEmpty) {
-      print("Geen tekst om af te spelen.");
+      _showErrorDialog('Geen tekst om af te spelen.');
       return;
     }
-    print("Bezig met afspelen van tekst: $text");
-
     final response = await http.post(
       Uri.parse("https://api.elevenlabs.io/v1/text-to-speech/$voiceId"),
       headers: {
@@ -127,8 +125,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
     );
 
     if (response.statusCode == 200) {
-      print("Audio gegenereerd.");
-
+      // Audio gegenereerd
       try {
         // Verkrijg de path voor tijdelijke opslag
         final directory = await getTemporaryDirectory();
@@ -140,11 +137,32 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
         // Speel het bestand af met audioplayers
         await _audioPlayer.play(DeviceFileSource(file.path));
       } catch (e) {
-        print("Fout bij het afspelen van audio: $e");
+        _showErrorDialog("Fout bij het afspelen van audio");
       }
     } else {
-      print("Fout bij het genereren van audio: ${response.body}");
+      _showErrorDialog("Fout bij het genereren van audio");
     }
+  }
+
+// Pop-up voor foutmelding
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xfff1f0ea),
+        title: const Text('Foutmelding'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            style: TextButton.styleFrom(foregroundColor: const Color(0xff82A790)),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   // Naar volgende QR code gaan.
