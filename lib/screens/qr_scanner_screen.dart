@@ -15,11 +15,10 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   bool _isScanning = true;
   bool _isDialogOpen = false; // Voorkomt spam van foutmeldingen
 
-  // Pop-up
   void _showErrorDialog(String message) {
     if (_isDialogOpen) return;
 
-    // Laat foutmelding zien als er iets fout gaat (meerdere oorzaken)
+    // Pop-up voor foutmelding
     _isDialogOpen = true;
     showDialog(
       context: context,

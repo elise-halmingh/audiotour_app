@@ -8,16 +8,15 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String?>? arguments = ModalRoute.of(context)?.settings.arguments as Map<String, String?>?;
-
     final String? ageGroup = arguments?['ageGroup'];
     final String? theme = arguments?['theme'];
 
+    // Als er niets is ingevuld bij thema en/of leeftijd toon foutmelding
     if (ageGroup == null || theme == null) {
       return Scaffold(
         backgroundColor: const Color(0xfff1f0ea),
         body: Center(
           child: ElevatedButton(
-            // Als er niets is ingevuld toon foutmelding
             onPressed: () {
               showDialog(
                 context: context,
@@ -75,6 +74,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Welkom tekst
               const Text(
                 'Welkom bij ExpoSound!',
                 style: TextStyle(

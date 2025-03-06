@@ -46,7 +46,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
 
   // Functie om de leeftijd om te zetten naar leeftijdsgroep
   String getAgeGroup(int age) {
-    if (age <= 13) return '3-13';
+    if (age <= 13) return '1-13';
     if (age <= 30) return '14-30';
     return '31+';
   }
@@ -165,7 +165,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
     );
   }
 
-  // Naar volgende QR code gaan.
+  // Naar volgende QR code gaan als 5 is geweest toon text
   void _goToNextQRCode() {
     int nextQR = widget.currentQR + 1;
     if (nextQR > 5) {
@@ -190,6 +190,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
         ),
         actions: [
           Row(
+            // Plattegrond button
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
@@ -220,6 +221,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
                   ),
                 ),
               ),
+              // QR Scanner button
               const SizedBox(width: 10),
               Expanded(
                 child: GestureDetector(
@@ -273,6 +275,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
           },
         ),
       ),
+      // Foto-scherm met foto, titel, fotograaf en beschrijving
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -299,6 +302,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
                 style: const TextStyle(fontSize: 16, color: Color(0xff5A7364)),
               ),
               const SizedBox(height: 24),
+              // Afspelen/Pauze button + Audio logica
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
@@ -346,6 +350,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
               ),
               const SizedBox(height: 24),
               Row(
+                // Vorige pagina button
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (widget.currentQR > 1)
@@ -365,6 +370,7 @@ class _PhotoPlayScreenState extends State<PhotoPlayScreen> {
                       ),
                     ),
                   const SizedBox(width: 16),
+                  // Klaar en Volgende button
                   ElevatedButton(
                     onPressed: widget.currentQR == 5
                         ? () {

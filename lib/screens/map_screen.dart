@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class MapScreen extends StatelessWidget {
+  //Locatie cirkels
   final List<Map<String, double>> positions = [
     {'top': 60, 'left': 75},
     {'top': 60, 'left': 200},
@@ -30,6 +31,7 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //Appbar
       backgroundColor: const Color(0xfff1f0ea),
       appBar: AppBar(
         backgroundColor: const Color(0xfff1f0ea),
@@ -47,6 +49,7 @@ class MapScreen extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
+                  // Titel
                   Text(
                     'Plattegrond',
                     style: TextStyle(
@@ -56,6 +59,7 @@ class MapScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8),
+                  // Ondertitel
                   Text(
                     'Klik op de nummers om de foto te zien',
                     textAlign: TextAlign.center,
@@ -72,17 +76,20 @@ class MapScreen extends StatelessWidget {
             child: Center(
               child: Stack(
                 children: [
+                  // De plattegrond svg
                   SvgPicture.asset(
                     'assets/images/plattegrond.svg',
                     fit: BoxFit.contain,
                     width: double.infinity,
                     height: double.infinity,
                   ),
+                  // Genummerde cirkels die worden gepositioneerd op de plattegrond
                   for (int i = 0; i < 10; i++)
                     Positioned(
                       top: positions[i]['top']!,
                       left: positions[i]['left']!,
                       child: GestureDetector(
+                        // Wanneer er op een cirkel wordt geklikt, wordt _showPopup aangeroepen
                         onTap: () {
                           _showPopup(context, i + 1);
                         },
@@ -107,7 +114,7 @@ class MapScreen extends StatelessWidget {
     );
   }
 
-// Functie om de pop-up te tonen
+  // Functie om de pop-up te tonen voor de geselecteerde cirkel
   void _showPopup(BuildContext context, int photoNumber) async {
     final photos = await loadPhotos();
     final photo = photos.firstWhere(
@@ -120,6 +127,7 @@ class MapScreen extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: const Color(0xFFf1f0ea),
+          // Titel ophalen
           title: photo.isNotEmpty
               ? Text(photo['title'] ?? 'Geen titel beschikbaar')
               : const Text('Coming Soon'),

@@ -14,10 +14,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // Stel een timer in van 3 seconden voor de splash scherm animatie
     Timer(const Duration(seconds: 3), () {
+      // Na de 3 seconden veranderd de tekst naar onzichtbaar
       setState(() {
         _visible = false;
       });
+      // Na 500ms doorgestuurd naar het Profiel setup scherm
       Future.delayed(const Duration(milliseconds: 500), () {
         Navigator.pushReplacement(
           context,
@@ -27,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+  // User interface styling en bouwen
   @override
   Widget build(BuildContext context) {
     return Scaffold(

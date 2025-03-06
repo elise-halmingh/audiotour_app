@@ -18,7 +18,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     _loadPreferences();
   }
 
-  // Functie om voorkeuren (gebruiker leeftijd en thema) op te halen als JSON
+  // Functie om profiel instellingen op te halen als JSON met SharedPreferences
   _loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userDataJson = prefs.getString('user_data');
@@ -33,7 +33,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     }
   }
 
-  // Functie om leeftijd om te zetten naar leeftijdsgroep
+  // Functie om leeftijd om te zetten naar leeftijdsgroep anders een foutmelding
   void _setAgeGroup(String age) {
     int? ageInt = int.tryParse(age);
     if (ageInt != null) {
@@ -66,7 +66,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     }
   }
 
-  // Functie om voorkeuren op te slaan als JSON
+  // Functie om voorkeuren op te slaan als JSON in SharedPreferences
   _savePreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, String?> userData = {
@@ -90,6 +90,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // Titel van pagina
                 const Text(
                   'ExpoSound',
                   style: TextStyle(
@@ -99,6 +100,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   ),
                 ),
                 const Text(
+                  //Ondertitel van pagina
                   'Selecteer je leeftijd en thema',
                   style: TextStyle(
                     fontSize: 20,
@@ -191,7 +193,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     );
   }
 
-  // Text Styling
+  // Text Styling en bouwen
   Widget _buildTextField({
     required TextEditingController controller,
     required String labelText,
@@ -229,7 +231,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     );
   }
 
-  // Dropdown Styling
+  // Dropdown Styling en bouwen
   Widget _buildDropdownMenu({
     required String title,
     required String placeholder,

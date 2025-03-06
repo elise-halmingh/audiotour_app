@@ -20,10 +20,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     _loadPreferences();
   }
 
+  // Laadt de opgeslagen profiel instellingen uit SharedPreferences
   _loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Haal de opgeslagen data op
     String? userDataJson = prefs.getString('user_data');
     if (userDataJson != null) {
+      // Decode de JSON string naar een Map
       Map<String, dynamic> userData = json.decode(userDataJson);
       setState(() {
         ageController.text = userData['age'] ?? '';
@@ -33,7 +36,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     }
   }
 
-  // Functie om leeftijd om te zetten naar leeftijdsgroep
+  // Functie om leeftijd om te zetten naar leeftijdsgroep en anders foutmelding
   void _setAgeGroup(String age) {
     int? ageInt = int.tryParse(age);
     if (ageInt != null) {
@@ -66,6 +69,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     }
   }
 
+  // Sla de profiel instellingen op in SharedPreferences
   _savePreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, String?> userData = {
@@ -73,6 +77,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       'theme': selectedTheme,
       'ageGroup': ageGroup,
     };
+    // Zet de gegevens om naar JSON
     String userDataJson = json.encode(userData);
     await prefs.setString('user_data', userDataJson);
   }
@@ -180,7 +185,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     );
   }
 
-  // Text Field Styling
+  // Text Field Styling en bouwen
   Widget _buildTextField({
     required TextEditingController controller,
     required String labelText,
@@ -218,6 +223,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     );
   }
 
+  // Dropdown styling en bouwen
   Widget _buildDropdownMenu({
     required String title,
     required String placeholder,
